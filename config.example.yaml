@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+database:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: "change_me"
+  name: kubeconfig_ui
+  charset: utf8mb4
+
+auth:
+  jwt_secret: "kubeconfig-ui-secret"
+  token_expiry: "24h"
+  root_initial_name: "root"
+  root_initial_phone: "13000000000"
+  root_initial_email: "root@example.com"
+  root_initial_password: "Root@123456"
+  # 忘记密码邮件（可选；未配置时「忘记密码」会提示邮件服务未配置）
+  smtp_host: "smtp.163.com"
+  smtp_port: 465
+  smtp_user: "example@163.com"
+  smtp_pass: "smtp_authorization_code"
+  smtp_from: "example@163.com"

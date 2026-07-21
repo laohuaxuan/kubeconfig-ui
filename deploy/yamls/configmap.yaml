@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeconfig-ui-config
+  namespace: devops
+data:
+  config.yaml: |
+    server:
+      port: 8080
+
+    database:
+      host: mysql.devops.svc.cluster.local
+      port: 3306
+      user: kubeconfig_ui
+      password: ""
+      name: kubeconfig_ui
+      charset: utf8mb4

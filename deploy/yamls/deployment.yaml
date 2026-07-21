@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeconfig-ui
+  namespace: devops
+  labels:
+    app: kubeconfig-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubeconfig-ui
+  template:
+    metadata:
+      labels:
+        app: kubeconfig-ui
+    spec:
+      containers:
+        - name: kubeconfig-ui
+          image: your-registry/kubeconfig-ui:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: CONFIG_FILE
+              value: /app/config.yaml
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kubeconfig-ui-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: app-config
+          configMap:
+            name: kubeconfig-ui-config

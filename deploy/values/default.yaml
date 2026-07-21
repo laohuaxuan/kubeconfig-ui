@@ -1,0 +1,33 @@
+imagePullSecret: regcred-vpc
+container:
+  env:
+    - name: GIN_MODE
+      value: release
+  port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  livenessProbe: 
+    enabled: false
+  readinessProbe:
+    enabled: false
+  volumeMounts:
+    - mountPath: /app/config.yaml
+      subPath: config.yaml
+      name: kubeconfig-ui-config
+      readOnly: false
+volumes:
+  - name: kubeconfig-ui-config
+    configMap:
+      name: kubeconfig-ui-config
+service:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
