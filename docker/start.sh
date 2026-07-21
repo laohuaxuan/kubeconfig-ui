@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-/app/server &
+/app/kubeconfig-ui &
 SERVER_PID=$!
 
 nginx -g "daemon off;" &
