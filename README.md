@@ -45,10 +45,17 @@ export CONFIG_FILE=/path/to/config.yaml
 若希望新环境预先导入**仅表结构（不含任何业务/数据源数据）**：
 
 ```bash
+# MySQL 8+
 mysql -h <host> -u <user> -p < deploy/sql/schema.sql
+
+# MySQL 5.7
+mysql -h <host> -u <user> -p < deploy/sql/schema-mysql57.sql
 ```
 
-表结构文件：[`deploy/sql/schema.sql`](deploy/sql/schema.sql)
+表结构文件：
+
+- MySQL 8+：[`deploy/sql/schema.sql`](deploy/sql/schema.sql)
+- MySQL 5.7：[`deploy/sql/schema-mysql57.sql`](deploy/sql/schema-mysql57.sql)
 
 包含表：
 
@@ -173,7 +180,8 @@ auth:
 ├── frontend/                  # React 前端
 ├── deploy/
 │   ├── Dockerfile             # 与根目录 Dockerfile 一致
-│   ├── sql/schema.sql         # MySQL 表结构（无数据）
+│   ├── sql/schema.sql         # MySQL 8+ 表结构（无数据）
+│   ├── sql/schema-mysql57.sql # MySQL 5.7 表结构（无数据）
 │   ├── yamls/                 # K8s 部署清单
 │   └── README.md
 └── README.md

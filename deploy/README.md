@@ -5,7 +5,10 @@
 仅表结构、不含业务/数据源数据：
 
 ```bash
+# MySQL 8+
 mysql -h <host> -u <user> -p < deploy/sql/schema.sql
+# MySQL 5.7
+mysql -h <host> -u <user> -p < deploy/sql/schema-mysql57.sql
 ```
 
 应用启动时也会自动建库并 AutoMigrate；未预导入时可跳过本步。

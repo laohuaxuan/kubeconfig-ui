@@ -33,7 +33,8 @@ COPY --from=backend-builder /out/kubeconfig-ui /app/kubeconfig-ui
 COPY --from=frontend-builder /src/frontend/dist /usr/share/nginx/html
 COPY deploy/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY docker/start.sh /start.sh && chmod +x /start.sh
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 8080
 ENV TZ=Asia/Shanghai
