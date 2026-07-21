@@ -15,11 +15,17 @@ RUN npm run build
 FROM acr-openxlab-prod-registry-vpc.cn-shanghai.cr.aliyuncs.com/public/golang:1.23-alpine AS backend-builder
 
 WORKDIR /src
+
+RUN apk add --no-cache git
 # COPY go.mod go.sum ./
 # RUN go mod download
 # COPY cmd/ ./cmd/
 # COPY internal/ ./internal/
 COPY . .
+
+# 将前端构建产物放入后端可托管目录
+COPY --from=frontend-builder /src/frontend/dist ./frontend/dist
+
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct && go build -o /out/kubeconfig-ui ./cmd/server
 
 #################
